@@ -42,6 +42,7 @@ func (e *EasyFactory) CreateComputer(name string) Computer {
 	return c
 }
 
+// 对于工厂类来说，不符合开闭原则，每新增一个产品种类，都需要修改工厂类的方法
 // 业务逻辑
 func main() {
 	var c Computer
