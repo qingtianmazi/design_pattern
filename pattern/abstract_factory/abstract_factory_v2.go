@@ -2,11 +2,12 @@ package main
 
 import "fmt"
 
-// 抽象工厂的作用在于不用每新建一个品类，都创建一个工厂
+// 抽象工厂的作用在于不用每新建一个品类，都创建一个工厂，每个工厂生产一整套产品等级结构
 // 练习：产品等级结构为
 // clothes trousers shoes  衣服 裤子 鞋
 
 // 抽象层
+// 产品等级结构为Clothes，trousers，shoes
 type Clothes interface {
 	PutOn()
 }
@@ -18,6 +19,7 @@ type Shoes interface {
 }
 
 // 产品族：生产完整的产品等级结构的工厂
+// 一个工厂能生产出完整的产品
 type AbsFactory interface {
 	CreateClothes() Clothes
 	CreateTrousers() Trousers
@@ -97,15 +99,21 @@ func (j *JapanFactory) CreateShoes() Shoes {
 
 // 业务逻辑层
 func main() {
-	//创建中国工厂
+	// 1.定义抽象中国工厂
 	var chinaFac AbsFactory
+	// 2.实例化中国工厂
 	chinaFac = new(ChinaFactory)
+	// 3.中国工厂生产中国衣服
 	chinaClothes := chinaFac.CreateClothes()
+	// 4.中国工厂生产中国裤子
 	chinaTrousers := chinaFac.CreateTrousers()
+	// 5.中国工厂生产中国鞋
 	chinaShoes := chinaFac.CreateShoes()
+	// 6.调用中国产品的方法
 	chinaClothes.PutOn()
 	chinaTrousers.PutOn()
 	chinaShoes.TakeOn()
+	// 日本工厂同理
 	var japanFac AbsFactory
 	japanFac = new(JapanFactory)
 	japanClothes := japanFac.CreateClothes()
