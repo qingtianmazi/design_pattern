@@ -1,4 +1,4 @@
-package main
+package no_factory
 
 import "fmt"
 

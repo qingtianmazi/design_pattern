@@ -1,4 +1,4 @@
-package main
+package singleton
 
 import "fmt"
 
@@ -29,6 +29,10 @@ func newSingletonCar() *singletonCar {
 	return &singletonCar{"BMW"}
 }
 
+type SingletonCarInterface interface {
+	PrintCarName()
+}
+
 // 3.对外提供的全局访问点，包外能够获得这个单例对象，只提供读权限，不提供写权限
 func GetSingleCar() SingletonCarInterface {
 	return sc
@@ -43,10 +47,6 @@ func GetSingleCar() SingletonCarInterface {
 
 func (sc *singletonCar) PrintCarName() {
 	fmt.Println(sc.name)
-}
-
-type SingletonCarInterface interface {
-	PrintCarName()
 }
 
 func main() {

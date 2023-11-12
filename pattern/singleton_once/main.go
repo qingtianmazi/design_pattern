@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"sync/atomic"
 )
 
 // 1.单例类需要是包内私有的，不能被外界访问到，否则就能实例化多个对象
@@ -28,26 +27,13 @@ func (sc *singletonCar) PrintName() {
 	fmt.Println(sc.name)
 }
 
-// 新增锁
-var lock sync.Mutex
+var once sync.Once
 
-// 原子读操作标记位
-var syncNum uint32
-
-// 懒汉模式在获取对象的时候才会实例化对象
+// 3.使用sync.Once来保证只实例化一次
 func GetSingleton() SingletonCarInterface {
-	if atomic.LoadUint32(&syncNum) == 1 {
-		return s
-	}
-	// 获取对象前，先加锁
-	lock.Lock()
-	defer lock.Unlock()
-	// 不存在对象，则实例化对象
-	if s == nil {
+	once.Do(func() {
 		s = newSingletonCar()
-		// 对syncNum这个标记位进行复制操作
-		atomic.StoreUint32(&syncNum, 1)
-	}
+	})
 	return s
 }
 
