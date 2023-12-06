@@ -10,6 +10,7 @@ import "fmt"
 	step3：通过考试
 */
 
+// 学生
 type Student struct {
 	Name     string
 	SignUp   bool // 报名考试
@@ -19,9 +20,10 @@ type Student struct {
 
 type Section interface {
 	Do(s *Student)           // 参与改环节
-	setNext(section Section) //下一个环节
+	setNext(section Section) // 设置下一个环节
 }
 
+// 学生报名考试
 type SignUp struct {
 	next Section
 }
@@ -42,6 +44,7 @@ func (s *SignUp) setNext(section Section) {
 	s.next = section
 }
 
+// 学生参加考试
 type TakeTest struct {
 	next Section
 }
@@ -62,6 +65,7 @@ func (p *TakeTest) setNext(section Section) {
 	p.next = section
 }
 
+// 学生通过考试
 // 责任链最后一个节点，不需要请求后续节点的 Do 方法了
 type PassExam struct {
 	next Section
