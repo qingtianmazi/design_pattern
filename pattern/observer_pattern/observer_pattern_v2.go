@@ -12,7 +12,7 @@ type Publisher interface {
 
 // 订阅者接口
 type Subscriber interface {
-	Update()
+	Update() // 接到通知，执行自己的方法
 	Name() string
 }
 
@@ -22,14 +22,17 @@ type ConcretePublisher struct {
 	subscribers []Subscriber
 }
 
+// 观察者订阅
 func (c *ConcretePublisher) Follow(s Subscriber) {
 	c.subscribers = append(c.subscribers, s)
 }
 
+// 观察者取消订阅
 func (c *ConcretePublisher) UnFollow(s Subscriber) {
 	c.subscribers = remove(c.subscribers, s)
 }
 
+// 通知所有观察只
 func (c *ConcretePublisher) Notify() {
 	for _, s := range c.subscribers {
 		s.Update()
@@ -64,8 +67,8 @@ func main() {
 	publisher = &ConcretePublisher{}
 	var subscriber1 Subscriber
 	var subscriber2 Subscriber
-	subscriber1 = &ConcreteSubscriber{"张三"}
-	subscriber2 = &ConcreteSubscriber{"李四"}
+	subscriber1 = &ConcreteSubscriber{"墨迹天气"}
+	subscriber2 = &ConcreteSubscriber{"今日头条"}
 	publisher.Follow(subscriber1)
 	publisher.Follow(subscriber2)
 	publisher.Notify()
