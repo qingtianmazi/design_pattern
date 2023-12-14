@@ -32,8 +32,7 @@ func (a *Android) UsingTypeC() {
 	fmt.Println(a.name + "using type-c")
 }
 
-//给安卓机添加一个适配器
-
+// 给安卓机添加一个适配器
 type AndroidAdapter struct {
 	androidPhone Android
 }
@@ -43,11 +42,15 @@ func (a *AndroidAdapter) UsingLighting() {
 }
 
 func main() {
+	// 定义一个抽象的手机
 	var phone Phone
+	// 实例化为iphone
 	phone = &iPhone{"iPhone"}
 	var android Phone
+	// 实例化为安卓手机，并使用适配器转换type-c接口为lighting接口
 	android = &AndroidAdapter{Android{"Android"}}
 	cli := &client{}
 	cli.UsingLighting(phone)
+	// 使用lighting接口
 	cli.UsingLighting(android)
 }
